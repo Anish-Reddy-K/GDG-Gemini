@@ -39,12 +39,7 @@ if prompt := st.chat_input("Type your message:"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     # Generate and display assistant response
-    response_container = st.chat_message("assistant")
-    response_text = ""
-    for chunk in generate_response(prompt):
-        response_text += chunk
-        # Update the response container with the latest text
-        response_container.markdown(response_text + "▌")
-    response_container.markdown(response_text)
+    with st.chat_message("assistant"):
+        response_text = st.write_stream(generate_response(prompt))
     # Add assistant response to session state
     st.session_state.messages.append({"role": "assistant", "content": response_text})
